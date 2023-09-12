@@ -1,0 +1,52 @@
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+
+using namespace std;
+
+int main() {
+    srand(time(nullptr));
+
+    int totalGames;
+    cout << "Enter the number of games to simulate: ";
+    cin >> totalGames;
+
+    int stayWins = 0; // Count of wins when staying with the initial choice
+    int switchWins = 0; // Count of wins when switching doors
+
+    for (int i = 0; i < totalGames; i++) {
+        // Randomly place the car behind one of the three doors
+        int carDoor = rand() % 3;
+
+        // Contestant's initial choice
+        int initialChoice = rand() % 3;
+
+        // Monty opens one of the other two doors with a goat behind it
+        int openedDoor;
+        do {
+            openedDoor = rand() % 3;
+        } while (openedDoor == carDoor || openedDoor == initialChoice);
+
+        // Determine the door to switch to
+        int switchTo;
+        do {
+            switchTo = rand() % 3;
+        } while (switchTo == initialChoice || switchTo == openedDoor);
+
+        // Check if the contestant wins when staying with the initial choice
+        if (initialChoice == carDoor) {
+            stayWins++;
+        }
+
+        // Check if the contestant wins when switching doors
+        if (switchTo == carDoor) {
+            switchWins++;
+        }
+    }
+
+    cout << "Results after simulating " << totalGames << " games:" << endl;
+    cout << "Win percentage when staying with initial choice: " << (double)stayWins / totalGames * 100 << "%" << endl;
+    cout << "Win percentage when switching doors: " << (double)switchWins / totalGames * 100 << "%" << endl;
+
+    return 0;
+}
